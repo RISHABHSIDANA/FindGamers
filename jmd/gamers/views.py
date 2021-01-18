@@ -89,7 +89,8 @@ def matching(request):
         print(ggid)
         waiting=Game.get_wl((ggid))
         if waiting == 0:
-          return HttpResponse("no")
+
+          return HttpResponse("NO")
         else:
             users=Question.get_users(ggid)
             print(users)
