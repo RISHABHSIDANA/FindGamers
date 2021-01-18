@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 ggid=''
+ggname=''
 
 # Create your views here.
 def index(request):
@@ -66,11 +67,14 @@ def home(request):
     print(gid)
     global ggid
     ggid=gid
+    
     #print(gamename)
     if gid:
       gamename=Game.get_game(gid)
       #print(gamename('waiting_list'))
       print(gamename[0])
+      global ggname
+      ggname=gamename[0]
       context={
           'gg':gamename[0]
       }
@@ -89,10 +93,14 @@ def matching(request):
         print(ggid)
         waiting=Game.get_wl((ggid))
         if waiting == 0:
-
-          return HttpResponse("NO")
+           obj=Game.objects.get(id=ggid)
+           obj.waiting_list=1
+           obj.save()
+           obj1=Question(game=ggname,ign=name,igid=gameid,email=email)
+           obj1.save()
+           return HttpResponse("We will inform you when a match is found")
         else:
             users=Question.get_users(ggid)
             print(users)
-            return HttpResponse("yes")
+            return render(request,'matches.html',users)
     
