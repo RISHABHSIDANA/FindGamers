@@ -1,0 +1,26 @@
+           {% extends "base.html" %}
+
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+ <form class="container" method="post" action="/matching">
+ {% csrf_token %}
+
+<div class="form-group">
+  <label for="text" class="form-label">Enter {{gg.gname}} ID</label>
+  <input type="text" class="form-control" id="gameid" name='gameid' >
+</div>
+
+<div class="form-group">
+  <label for="email" class="form-label">Enter email</label>
+  <input type="email" class="form-control" id="email" name='email'>
+</div>
+<div class="form-group">
+  <label for="text" class="form-label">Enter name</label>
+  <input type="text" class="form-control" id="name"  name='name' >
+</div>
+<button type="submit" class="btn btn-primary" >FIND MATCH</button>
+ </form>
+
+
+ {% endblock body %}
