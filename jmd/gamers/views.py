@@ -100,7 +100,8 @@ def matching(request):
            obj1.save()
            return HttpResponse("We will inform you when a match is found")
         else:
-            users=Question.get_users(ggid)
-            print(users)
-            return render(request,'matches.html',users)
+            k={}
+            k['users']=Question.get_users(ggid)
+            print(k)
+            return render(request,'matches.html',k)
     

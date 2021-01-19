@@ -28,6 +28,7 @@ class Game(models.Model):
     def get_wl(ggid):
         return Game.objects.get(id=ggid).waiting_list
     
+    
 class Question(models.Model):
     game=models.ForeignKey(Game,on_delete=models.CASCADE)
     ign=models.CharField(max_length=122,unique=True)
