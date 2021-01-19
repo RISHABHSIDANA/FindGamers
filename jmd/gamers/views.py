@@ -100,13 +100,10 @@ def matching(request):
            obj1.save()
            return HttpResponse("We will inform you when a match is found")
         else:
-<<<<<<< HEAD
             k={}
             k['users']=Question.get_users(ggid)
             print(k)
             return render(request,'matches.html',k)
-    
-=======
             users=Question.get_users(ggid)
             print(users)
             return render(request,'matches.html',users)
@@ -144,4 +141,3 @@ def matchpt(request):
         messages.success(request, ' % match with ')
         return render (request,'findmatch.html',context)
     return render (request,'findmatch.html')  
->>>>>>> 419685f2f0033aa0319eaf6757344559f2b65cba
