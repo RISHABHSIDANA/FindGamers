@@ -49,6 +49,3 @@ class Matchpt(models.Model):
         return self.name 
 
 
-    
-
-   
