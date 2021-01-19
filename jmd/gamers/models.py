@@ -40,8 +40,12 @@ class Question(models.Model):
     def get_users(ggid):
         return Question.objects.filter(game=ggid)
 
+class Matchpt(models.Model):
+    name=models.CharField(max_length=122)
+    gameid=models.CharField(max_length=122)
+    email=models.CharField(max_length=122)
+    #opt11=models.IntegerField(default=0)
+    option=models.IntegerField(default=0)
+    def __str__(self):
+        return self.name 
 
-
-    
-
-   
