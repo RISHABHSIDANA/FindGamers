@@ -30,7 +30,7 @@ class Game(models.Model):
     
     
 class Question(models.Model):
-    game=models.ForeignKey(Game,on_delete=models.CASCADE)
+    #game=models.ForeignKey(Game,on_delete=models.CASCADE)
     ign=models.CharField(max_length=122,unique=True)
     igid=models.CharField(max_length=122,unique=True)
     email=models.EmailField(verbose_name="email", max_length=60, unique=True)
@@ -41,6 +41,7 @@ class Question(models.Model):
         return Question.objects.filter(game=ggid)
 
 class Matchpt(models.Model):
+    game=models.ForeignKey(Game,on_delete=models.CASCADE,default=1)
     name=models.CharField(max_length=122)
     gameid=models.CharField(max_length=122)
     email=models.CharField(max_length=122)
