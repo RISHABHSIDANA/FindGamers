@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponse
 from datetime import datetime
-from gamers.models import Contact,Game,Question
+from gamers.models import Contact,Game,Question,Matchpt
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
@@ -103,4 +103,37 @@ def matching(request):
             users=Question.get_users(ggid)
             print(users)
             return render(request,'matches.html',users)
-    
+
+def matchpt(request):
+    if request.method=="POST":
+        name=request.POST.get('name')
+        gameid=request.POST.get('gameid')
+        email=request.POST.get('email')
+        #opt11=request.POST.get('opt11')
+        option=int(request.POST.get('opt1'))+int(request.POST.get('opt2'))+int(request.POST.get('opt3'))*(2**8)+int(request.POST.get('opt4'))*(2**9)+int(request.POST.get('opt5'))*(2**10)+int(request.POST.get('opt6'))*(2**11)+int(request.POST.get('opt7'))*(2**12)+int(request.POST.get('opt8'))*(2**13)+int(request.POST.get('opt9'))*(2**14)+int(request.POST.get('opt10'))*(2**15)+int(request.POST.get('opt11'))*(2**16)
+        matchpt=Matchpt(name=name,gameid=gameid,email=email,option=option)
+        matchpt.save()
+        n=Matchpt.objects.count()
+        b=Matchpt.objects.all()[n-1].option
+        m=0
+        x=0
+        for i in range(0,n-1):
+            a=Matchpt.objects.all()[i].option
+            a=a&b
+            r=0
+            while(a>0):
+                a=(a&(a-1))
+                r=r+1
+            if(r>m):
+               m=r
+               x=i
+        m='%.2f'%((m/11)*100)
+        print(Matchpt.objects.all()[x])
+        print(m)
+        context={
+            'var1':m,
+            'var2':Matchpt.objects.all()[x].name
+        }
+        messages.success(request, ' % match with ')
+        return render (request,'findmatch.html',context)
+    return render (request,'findmatch.html')  
