@@ -9,5 +9,6 @@ urlpatterns = [
     path('contact',views.contact,name='contact'),
     path('pubg',views.pubg,name='pubg'),
     path('services',views.services,name='services'),
+    path('matchpt',views.matchpt,name='matchpt'),
     path('matching',views.matching,name='matching')
 ]
