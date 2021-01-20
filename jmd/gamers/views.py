@@ -127,35 +127,36 @@ def matchpt(request):
            matchpt.save()
            return HttpResponse("We will inform you when a match is found")
         else:
-         context={
-             'var':name
-         }
-         n=Matchpt.objects.filter(game=ggid).count()
-         print(n)
-         b=Matchpt.objects.filter(game=ggid)[n-1].option
-         ri={}
-         ri['users']=Matchpt.objects.filter(game=ggid)
-         print(ri)
-         m=0
-         x=0
-         for i in range(0,n-1):
-            a=Matchpt.objects.filter(game=ggid)[i].option
-            a=a&b
-            r=0
-            while(a>0):
-                a=(a&(a-1))
-                r=r+1
-            if(r>m):
-               m=r
-               x=i
-        m='%.2f'%((m/11)*100)
-        # print(Matchpt.objects.all()[x])
-        print(m)
-       
-        matchpt.save()
-        obj=Game.objects.get(id=ggid)
-        obj.waiting_list=obj.waiting_list+1
-        obj.save() 
-        
-        return render(request,'matches.html',ri)
-    return render (request,'findmatch.html')  
+            n=Matchpt.objects.filter(game=ggid).count()
+            print(n)
+            b=Matchpt.objects.filter(game=ggid)[n-1].option
+            ri={}
+            ri['users']=Matchpt.objects.filter(game=ggid)
+            print(ri)
+            arr=[]
+            for i in range(0,n-1):
+                a=Matchpt.objects.filter(game=ggid)[i].option
+                a=a&b
+                r=0
+                while(a>0):
+                    a=(a&(a-1))
+                    r=r+1
+                arr.append(r+i/1000)
+            #print(Matchpt.objects.all()[x])
+            arr.sort()
+            ar=['A']*n
+            br=[0]*n
+            for i in range(0,n-1):
+                print(round(arr[i]*1000)%1000)
+                ar[i]=Matchpt.objects.filter(game=ggid)[round(arr[i]*1000)%1000].name
+                br[i]='%.2f'%((int(arr[i])/11.0)*100)
+            for i in range(0,n-1):
+                print(ar[i])
+                print(br[i])
+                print(' ')
+            matchpt.save()
+            obj=Game.objects.get(id=ggid)
+            obj.waiting_list=obj.waiting_list+1
+            obj.save()
+            return render(request,'matches.html',ri)
+    return render (request,'findmatch.html')
