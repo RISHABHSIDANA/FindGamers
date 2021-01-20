@@ -1,3 +1,36 @@
-{% for user in users %}
-{{user.ign}}
-{% endfor %}
+ {% extends "base.html" %}
+
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+	<div id='game' class="col-lg-9 mx-auto">
+			<div class="row mx-auto">
+				{% for user in users %}
+				 
+        <div class="card">
+  <div class="card-header">
+    Featured
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{user.name}}</h5>
+    <p class="card-text">you match itna % with him</p>
+    <a href="#" class="btn btn-primary">Send Request</a>
+  </div>
+</div> 
+
+				{% endfor %}
+			</div>
+		</div>
+         {% endblock body %}
+         	</div>
+       
+        <div class="card">
+  <div class="card-header">
+    Featured
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>

@@ -115,14 +115,31 @@ def matchpt(request):
         email=request.POST.get('email')
         #opt11=request.POST.get('opt11')
         option=int(request.POST.get('opt1'))+int(request.POST.get('opt2'))+int(request.POST.get('opt3'))*(2**8)+int(request.POST.get('opt4'))*(2**9)+int(request.POST.get('opt5'))*(2**10)+int(request.POST.get('opt6'))*(2**11)+int(request.POST.get('opt7'))*(2**12)+int(request.POST.get('opt8'))*(2**13)+int(request.POST.get('opt9'))*(2**14)+int(request.POST.get('opt10'))*(2**15)+int(request.POST.get('opt11'))*(2**16)
-        matchpt=Matchpt(name=name,gameid=gameid,email=email,option=option)
-        matchpt.save()
-        n=Matchpt.objects.count()
-        b=Matchpt.objects.all()[n-1].option
-        m=0
-        x=0
-        for i in range(0,n-1):
-            a=Matchpt.objects.all()[i].option
+        matchpt=Matchpt(name=name,gameid=gameid,email=email,option=option,game=ggname)
+        
+        waiting=Game.get_wl((ggid))
+        if Matchpt.return_acc(name) !=False:
+          return HttpResponse('already exists')
+        elif waiting == 0:
+           obj=Game.objects.get(id=ggid)
+           obj.waiting_list=1
+           obj.save()
+           matchpt.save()
+           return HttpResponse("We will inform you when a match is found")
+        else:
+         context={
+             'var':name
+         }
+         n=Matchpt.objects.filter(game=ggid).count()
+         print(n)
+         b=Matchpt.objects.filter(game=ggid)[n-1].option
+         ri={}
+         ri['users']=Matchpt.objects.filter(game=ggid)
+         print(ri)
+         m=0
+         x=0
+         for i in range(0,n-1):
+            a=Matchpt.objects.filter(game=ggid)[i].option
             a=a&b
             r=0
             while(a>0):
@@ -132,12 +149,13 @@ def matchpt(request):
                m=r
                x=i
         m='%.2f'%((m/11)*100)
-        print(Matchpt.objects.all()[x])
+        # print(Matchpt.objects.all()[x])
         print(m)
-        context={
-            'var1':m,
-            'var2':Matchpt.objects.all()[x].name
-        }
-        messages.success(request, ' % match with ')
-        return render (request,'findmatch.html',context)
+       
+        matchpt.save()
+        obj=Game.objects.get(id=ggid)
+        obj.waiting_list=obj.waiting_list+1
+        obj.save() 
+        
+        return render(request,'matches.html',ri)
     return render (request,'findmatch.html')  

@@ -41,7 +41,7 @@ class Question(models.Model):
         return Question.objects.filter(game=ggid)
 
 class Matchpt(models.Model):
-    game=models.ForeignKey(Game,on_delete=models.CASCADE,default=1)
+    game=models.ForeignKey(Game,on_delete=models.CASCADE)
     name=models.CharField(max_length=122)
     gameid=models.CharField(max_length=122)
     email=models.CharField(max_length=122)
@@ -49,5 +49,12 @@ class Matchpt(models.Model):
     option=models.IntegerField(default=0)
     def __str__(self):
         return self.name 
+    @staticmethod	
+    def return_acc(n):
+        try:
+             return Matchpt.objects.get(name=n)
+        except:
+             return False
+	  
 
 
