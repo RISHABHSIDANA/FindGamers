@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} Contact {% endblock title %}
+
+{% block body %}
+<div class="container-fluid px-0">
+  <img src="/static/10.jpg" class="d-block w-100 mx-0" alt="...">
+</div>
+<div class="container mb-3 py-4" style="color:rgb(248, 242, 242);">
+  <h1 class='text-center'>Contact Us</h1>
+  <form method="post" action="/contact">
+  {% csrf_token %}
+    <div class="mb-3" style="color:rgb(248, 242, 242);">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+    </div>
+    <div class="mb-3" style="color:rgb(248, 242, 242);">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+    </div>
+        <div class="mb-3" style="color:rgb(248, 242, 242);">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input type="text" class="form-control" id="phone" name="Phone" placeholder="+91">
+    </div>
+
+    <div class="mb-3" style="color:rgb(248, 242, 242);">
+      <label for="desc" class="form-label">Feedback</label>
+      <textarea class="form-control" id="desc" name="desc" rows="3" placeholder="How can we improve?"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">submit</button>
+  </form>
+</div>
+{% endblock body %}

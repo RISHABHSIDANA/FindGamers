@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert">
+        <strong> {{message}}{{var}} </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+{% for key,value in dictionary.items %}
+<style>
+  .card-img-top {
+    width: 60%;
+    height: 25vh;
+    object-fit: cover;
+  }
+</style>
+<div class="card-img-top mx-5" style="background-image: url('static/1.jpg'); border-radius: 20px 15px 15px 20px;">
+  <div class="card-body">
+    <h5 class="card-title"><b>{{key}}</h5></b>
+    <p class="card-text">you match <strong>{{value}} % </strong> with {{key}} </p>
+    <form method="post" action="/addme">
+    {% csrf_token %}
+    <button class="btn btn-primary" name="addme" type="submit" value="{{key}}">Send Request</button>
+    </form>
+  </div>
+</div>
+<br>
+{% endfor %}
+
+{% endblock body %}
+
