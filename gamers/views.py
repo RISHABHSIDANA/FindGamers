@@ -378,8 +378,9 @@ def gnameautosuggest(request):
         'User-Agent':'Rishabh Sidana'
     }
     payload={'search':gquery}
-    url="https://api.rawg.io/api/games"
+    url="https://api.rawg.io/api/games?key=4f935f8f9c984163b9e68d3a913a97c9"
     r=requests.get(url,headers=headers,params=payload)
+    #print(r)
     data=json.loads(r.text)
     li={}
     li['games']=[]
