@@ -52,7 +52,11 @@ class='button'><div class="myDIV"><strong>+</strong>{{game.waiting_list}}</div>
 
 				</div>
 			</a>
+			
 		</div>
+	
+			
+	
         <style>
 
 
@@ -93,4 +97,14 @@ color:black
 		{% endfor %}
 	</div>
 </div>
+<center>
+	{%if games.has_previous %} {# whether the previous page exists #}
+		<a href="?page={{games.previous_page_number}}">Previous </a> {# link to the prev page #}
+	{% endif %}
+	<span style="color:white">|</span> {# the current page number #}
+	
+	{%if games.has_next %} {# whether the next page exists #}
+		<a href="?page={{games.next_page_number}}">Next </a> {# link to the next page #}
+	{% endif %}
+</center>
 {% endblock body %}

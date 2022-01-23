@@ -6,17 +6,37 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 from django.core.mail import send_mail
 from django.http import JsonResponse
-import math, random, json, requests
 from django.template import Context
 from django.template.loader import render_to_string, get_template
 from django.core.mail import EmailMessage
+from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator,PageNotAnInteger
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK
+)
+from rest_framework.response import Response
 ggid=''
 ggname=''
 name0='ram'
 ri={}
 # Create your views here.
-
-
+@csrf_exempt
+@api_view(['POST'])
+def login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    print(password)
+    user = authenticate(request, username=username, password=password)
+    print(user)
+    if user is not None:
+        
+        return redirect('home')
+    else:
+        return HttpResponse("invalid credentials")
 
 def about(request):
     return render (request,'about.html')
@@ -33,9 +53,22 @@ def contact(request):
     return render (request,'contact.html')
 
 def home(request):
-    request.session.clear()
+    if request.session is not None:
+     request.session.clear()
     r={}
-    r['games']=Game.get_all_games()
+    games=Game.objects.all()
+    p = Paginator(games, 15)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)  # returns the desired page object
+    except PageNotAnInteger:
+        # if page_number is not an integer then assign the first page
+        page_obj = p.page(1)
+    except EmptyPage:
+        # if page is empty then return last page
+        page_obj = p.page(p.num_pages)
+
+    r['games']=page_obj
     #print(r)
     gid=request.GET.get('game')
     #print(gid)
