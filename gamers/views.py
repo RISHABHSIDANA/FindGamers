@@ -24,9 +24,9 @@ ggname=''
 name0='ram'
 ri={}
 # Create your views here.
-@csrf_exempt
-@api_view(['POST'])
+
 def login(request):
+ if request.method=="post":
     username = request.data.get('username')
     password = request.data.get('password')
     print(password)
@@ -37,6 +37,7 @@ def login(request):
         return redirect('home')
     else:
         return HttpResponse("invalid credentials")
+ return render(request,'login.html')
 
 def about(request):
     return render (request,'about.html')
