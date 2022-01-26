@@ -14,5 +14,6 @@ urlpatterns = [
     path('delotp',views.delotp,name='delotp'),
     path('addgame',views.addgame,name='addgame'),
     path('gnameautosuggest',views.gnameautosuggest,name='gnameautosuggest'),
-    path('login',views.login,name='login')
+    path('login',views.login,name='login'),
+    path('signup',views.signup,name='signup')
 ]

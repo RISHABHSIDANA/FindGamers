@@ -26,9 +26,9 @@ ri={}
 # Create your views here.
 
 def login(request):
- if request.method=="post":
-    username = request.data.get('username')
-    password = request.data.get('password')
+ if request.method=="POST":
+    username = request.POST.get('username')
+    password = request.POST.get('password')
     print(password)
     user = authenticate(request, username=username, password=password)
     print(user)
@@ -38,7 +38,20 @@ def login(request):
     else:
         return HttpResponse("invalid credentials")
  return render(request,'login.html')
-
+def signup(request):
+    if request.method=="POST":
+        username=request.POST.get('username')
+        if len(User.objects.filter(username=username)) == 1:
+             messages.warning(request, 'This name has been taken')
+             return redirect('login')
+        user=User.objects.create(
+            username=username,
+            email=request.POST.get('email'),
+        )
+        user.set_password(request.POST.get('password'))
+        user.save()
+        messages.success(request, 'User created ! Please Login')
+        return redirect('login')
 def about(request):
     return render (request,'about.html')
     #return HttpResponse("This is about page")
