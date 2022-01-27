@@ -22,7 +22,7 @@ admin.site.index_title = "Welcome to Jmd Gamers Admin Portal"
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('chat/', include('chat.urls')),
     path('jmd', admin.site.urls),
     path('',include('gamers.urls')),
-    path('chat/', include('chat.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
