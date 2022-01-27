@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-
+    'channels',
+    'chat',
     'gamers.apps.GamersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -144,3 +145,11 @@ EMAIL_HOST_PASSWORD = 'foolkumar'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_USE_TLS = True
 #EMAIL_USE_SSL = False
+
+ASGI_APPLICATION = 'jmd.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+       
+    },
+}
